@@ -7,8 +7,9 @@ AtomNeighbourIterator::AtomNeighbourIterator(const atomReference &inputReference
 }
 
 AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &sourceIterator, btPositionValue loopSizeX, btPositionValue loopSizeY)
-    : startReference(sourceIterator.startReference), loopSizeX(loopSizeX), loopSizeY(loopSizeY)
+    : loopSizeX(loopSizeX), loopSizeY(loopSizeY)
 {
+    startReference = sourceIterator.neighbourReferences[sourceIterator.currentPosition];
     init();
 }
 

@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
     }
 
     srand(time(NULL));
-    int c = 0;
     for (btPositionValue y = 0; y < SIZE_Y; y++) {
         for (btPositionValue x = 0; x < SIZE_X; x++) {
             field[y][x] = (btAtomValue)(rand() % 100) / 100;
