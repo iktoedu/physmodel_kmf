@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     }
 
     srand(time(NULL));
+    int c = 0;
     for (btPositionValue y = 0; y < SIZE_Y; y++) {
         for (btPositionValue x = 0; x < SIZE_X; x++) {
             field[y][x] = (btAtomValue)(rand() % 100) / 100;
@@ -34,16 +35,16 @@ int main(int argc, char *argv[])
 
     atomReference ref;
     ref.field = field;
-    ref.x = 2;
-    ref.y = 5;
+    ref.x = 0;
+    ref.y = 0;
 
     cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(ref) << endl;
 
-    AtomNeighbourIterator it(ref);
+    AtomNeighbourIterator it(ref, SIZE_X, SIZE_Y);
     for (int i = 0; i < 4; i++, it++) {
         cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(*it) << endl;
 
-        AtomNeighbourIterator innerIt(*it);
+        AtomNeighbourIterator innerIt(*it, SIZE_X, SIZE_Y);
         for (int j = 0; j < 4; j++, innerIt++) {
             cout << setfill(' ') << setw(10);
             cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(*innerIt);

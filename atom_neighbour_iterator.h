@@ -7,8 +7,8 @@
 class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference>
 {
 public:
-    AtomNeighbourIterator(atomReference &inputReference);
-    AtomNeighbourIterator(const AtomNeighbourIterator &);
+    AtomNeighbourIterator(const atomReference &, btPositionValue, btPositionValue);
+    AtomNeighbourIterator(const AtomNeighbourIterator &, btPositionValue, btPositionValue);
 
     AtomNeighbourIterator &operator ++();
     AtomNeighbourIterator operator ++(int);
@@ -22,6 +22,9 @@ private:
     atomReference startReference;
     atomReference *neighbourReferences;
     int currentPosition;
+
+    btPositionValue loopSizeX;
+    btPositionValue loopSizeY;
 
     void init();
 };
