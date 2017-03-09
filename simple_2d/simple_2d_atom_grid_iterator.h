@@ -15,8 +15,8 @@ public:
     AtomGridIterator &operator ++();
     AtomGridIterator operator ++(int);
 
-//    bool operator==(const AtomGridIterator &);
-//    bool operator!=(const AtomGridIterator &);
+    bool operator ==(const AtomGridIterator &);
+    bool operator !=(const AtomGridIterator &);
 
     atomReference2D operator *();
 

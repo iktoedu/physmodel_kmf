@@ -25,6 +25,22 @@ AtomGridIterator &AtomGridIterator::operator ++()
     return *this;
 }
 
+bool AtomGridIterator::operator ==(const AtomGridIterator &iterator)
+{
+    return (
+                (mvpField == iterator.mvpField)
+                && (mvSizeX == iterator.mvSizeX)
+                && (mvSizeY == iterator.mvSizeY)
+                && (mvPositionX == iterator.mvPositionX)
+                && (mvPositionY == iterator.mvPositionY)
+    );
+}
+
+bool AtomGridIterator::operator !=(const AtomGridIterator &iterator)
+{
+    return ! operator ==(iterator);
+}
+
 AtomGridIterator AtomGridIterator::operator ++(int)
 {
     AtomGridIterator current(*this);
