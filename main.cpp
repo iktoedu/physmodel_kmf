@@ -2,6 +2,7 @@
 #include <iomanip>
 #include "core/core_types.h"
 #include "core_2d/core_2d_atom_reference.h"
+#include "core_2d/core_2d_util.h"
 #include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 using namespace std;
@@ -11,11 +12,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    btAtomValue **field;
-    field = new btAtomValue*[SIZE_Y];
-    for (btPositionValue y = 0; y < SIZE_Y; y++) {
-        field[y] = new btAtomValue[SIZE_X];
-    }
+    btAtomValue **field = core_2d_allocate_field(SIZE_X, SIZE_Y);
 
     srand(time(NULL));
     for (btPositionValue y = 0; y < SIZE_Y; y++) {
@@ -51,10 +48,7 @@ int main(int argc, char *argv[])
         cout << endl;
     }
 
-    for (btPositionValue y = 0; y < SIZE_Y; y++) {
-        delete [] field[y];
-    }
-    delete [] field;
+    core_2d_deallocate_field(field, SIZE_X, SIZE_Y);
 
     return 0;
 }
