@@ -3,7 +3,7 @@
 
 #include "core/core_types.h"
 
-#define RESOLVE_ATOM_REF(__ref) (__ref).field[(__ref).y][(__ref).x]
+#define CORE_2D_RESOLVE_ATOM_REFERENCE(__ref) (__ref).field[(__ref).y][(__ref).x]
 
 typedef struct {
     btAtomValue **field;

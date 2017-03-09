@@ -34,16 +34,16 @@ int main(int argc, char *argv[])
     ref.x = 0;
     ref.y = 0;
 
-    cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(ref) << endl;
+    cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(ref) << endl;
 
     AtomNeighbourIterator it(ref, SIZE_X, SIZE_Y);
     for (int i = 0; i < 4; i++, it++) {
-        cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(*it) << endl;
+        cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(*it) << endl;
 
         AtomNeighbourIterator innerIt(*it, SIZE_X, SIZE_Y);
         for (int j = 0; j < 4; j++, innerIt++) {
             cout << setfill(' ') << setw(10);
-            cout << setprecision(2) << fixed << RESOLVE_ATOM_REF(*innerIt);
+            cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(*innerIt);
         }
         cout << endl;
     }
