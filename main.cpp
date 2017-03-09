@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
-#include "basic_types.h"
-#include "atom_reference.h"
-#include "atom_neighbour_iterator.h"
+#include "core/core_types.h"
+#include "core_2d/core_2d_atom_reference.h"
+#include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 using namespace std;
 

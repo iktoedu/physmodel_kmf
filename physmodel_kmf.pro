@@ -4,9 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    atom_neighbour_iterator.cpp
+    simple_2d/simple_2d_atom_neighbour_iterator.cpp
 
 HEADERS += \
-    atom_reference.h \
-    basic_types.h \
-    atom_neighbour_iterator.h
+    core/core_types.h \
+    core_2d/core_2d_atom_reference.h \
+    simple_2d/simple_2d_atom_neighbour_iterator.h

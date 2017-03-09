@@ -1,4 +1,4 @@
-#include "atom_neighbour_iterator.h"
+#include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 AtomNeighbourIterator::AtomNeighbourIterator(const atomReference &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
     : startReference(inputReference), loopSizeX(loopSizeX), loopSizeY(loopSizeY)

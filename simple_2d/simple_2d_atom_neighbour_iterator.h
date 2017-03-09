@@ -1,8 +1,8 @@
-#ifndef ATOM_NEIGHBOUR_ITERATOR_H
-#define ATOM_NEIGHBOUR_ITERATOR_H
+#ifndef SIMPLE_2D_ATOM_NEIGHBOUR_ITERATOR_H
+#define SIMPLE_2D_ATOM_NEIGHBOUR_ITERATOR_H
 
 #include <iterator>
-#include "atom_reference.h"
+#include "core_2d/core_2d_atom_reference.h"
 
 class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference>
 {
@@ -29,4 +29,4 @@ private:
     void init();
 };
 
-#endif // ATOM_NEIGHBOUR_ITERATOR_H
+#endif // SIMPLE_2D_ATOM_NEIGHBOUR_ITERATOR_H
