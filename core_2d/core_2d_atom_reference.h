@@ -9,6 +9,6 @@ typedef struct {
     btAtomValue **field;
     btPositionValue x;
     btPositionValue y;
-} atomReference;
+} atomReference2D;
 
 #endif // CORE_2D_ATOM_REFERENCE_H

@@ -1,6 +1,6 @@
 #include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
-AtomNeighbourIterator::AtomNeighbourIterator(const atomReference &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
+AtomNeighbourIterator::AtomNeighbourIterator(const atomReference2D &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
     : startReference(inputReference), loopSizeX(loopSizeX), loopSizeY(loopSizeY)
 {
     init();
@@ -15,7 +15,7 @@ AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &source
 
 void AtomNeighbourIterator::init()
 {
-    neighbourReferences = new atomReference[4];
+    neighbourReferences = new atomReference2D[4];
 
     neighbourReferences[0].field = startReference.field;
     neighbourReferences[0].x = startReference.x;
@@ -36,7 +36,7 @@ void AtomNeighbourIterator::init()
     currentPosition = 0;
 }
 
-atomReference &AtomNeighbourIterator::operator *()
+atomReference2D &AtomNeighbourIterator::operator *()
 {
     return neighbourReferences[currentPosition];
 }

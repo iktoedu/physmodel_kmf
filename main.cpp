@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         cout << endl;
     }
 
-    atomReference ref;
+    atomReference2D ref;
     ref.field = field;
     ref.x = 0;
     ref.y = 0;

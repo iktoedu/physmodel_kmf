@@ -4,10 +4,10 @@
 #include <iterator>
 #include "core_2d/core_2d_atom_reference.h"
 
-class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference>
+class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
 {
 public:
-    AtomNeighbourIterator(const atomReference &, btPositionValue, btPositionValue);
+    AtomNeighbourIterator(const atomReference2D &, btPositionValue, btPositionValue);
     AtomNeighbourIterator(const AtomNeighbourIterator &, btPositionValue, btPositionValue);
 
     AtomNeighbourIterator &operator ++();
@@ -16,11 +16,11 @@ public:
 //    bool operator==(const AtomNeighbourIterator &);
 //    bool operator!=(const AtomNeighbourIterator &);
 
-    atomReference &operator *();
+    atomReference2D &operator *();
 
 private:
-    atomReference startReference;
-    atomReference *neighbourReferences;
+    atomReference2D startReference;
+    atomReference2D *neighbourReferences;
     int currentPosition;
 
     btPositionValue loopSizeX;
