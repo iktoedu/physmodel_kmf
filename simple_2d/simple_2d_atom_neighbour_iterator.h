@@ -15,8 +15,8 @@ public:
     AtomNeighbourIterator &operator ++();
     AtomNeighbourIterator operator ++(int);
 
-//    bool operator==(const AtomNeighbourIterator &);
-//    bool operator!=(const AtomNeighbourIterator &);
+    bool operator ==(const AtomNeighbourIterator &);
+    bool operator !=(const AtomNeighbourIterator &);
 
     atomReference2D &operator *();
 

@@ -43,6 +43,23 @@ atomReference2D &AtomNeighbourIterator::operator *()
     return neighbourReferences[currentPosition];
 }
 
+bool AtomNeighbourIterator::operator ==(const AtomNeighbourIterator &iterator)
+{
+    return (
+                (startReference.field == iterator.startReference.field)
+                && (startReference.x == iterator.startReference.x)
+                && (startReference.y == iterator.startReference.y)
+                && (loopSizeX == iterator.loopSizeX)
+                && (loopSizeY == iterator.loopSizeY)
+                && (currentPosition == iterator.currentPosition)
+    );
+}
+
+bool AtomNeighbourIterator::operator !=(const AtomNeighbourIterator &iterator)
+{
+    return ! operator ==(iterator);
+}
+
 AtomNeighbourIterator &AtomNeighbourIterator::operator ++()
 {
     currentPosition++;
