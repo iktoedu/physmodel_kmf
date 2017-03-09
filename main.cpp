@@ -15,11 +15,9 @@ int main(int argc, char *argv[])
     btAtomValue **field = core_2d_allocate_field(SIZE_X, SIZE_Y);
 
     srand(time(NULL));
-    for (btPositionValue y = 0; y < SIZE_Y; y++) {
-        for (btPositionValue x = 0; x < SIZE_X; x++) {
-            field[y][x] = (btAtomValue)(rand() % 100) / 100;
-        }
-    }
+    core_2d_generate_field_values(field, SIZE_X, SIZE_Y, [](btPositionValue x, btPositionValue y) {
+        return (btAtomValue)(rand() % 100) / 100;
+    });
 
     for (btPositionValue y = 0; y < SIZE_Y; y++) {
         for (btPositionValue x = 0; x < SIZE_X; x++) {
