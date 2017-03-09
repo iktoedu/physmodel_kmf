@@ -4,6 +4,8 @@
 #include <iterator>
 #include "core_2d/core_2d_atom_reference.h"
 
+namespace Simple2D {
+
 class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
 {
 public:
@@ -28,5 +30,7 @@ private:
 
     void init();
 };
+
+} // namespace Simple2D
 
 #endif // SIMPLE_2D_ATOM_NEIGHBOUR_ITERATOR_H

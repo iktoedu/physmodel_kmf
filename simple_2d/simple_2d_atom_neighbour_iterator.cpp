@@ -1,5 +1,7 @@
 #include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
+namespace Simple2D {
+
 AtomNeighbourIterator::AtomNeighbourIterator(const atomReference2D &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
     : startReference(inputReference), loopSizeX(loopSizeX), loopSizeY(loopSizeY)
 {
@@ -54,3 +56,5 @@ AtomNeighbourIterator AtomNeighbourIterator::operator ++(int)
 
     return current;
 }
+
+} // namespace Simple2D

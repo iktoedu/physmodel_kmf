@@ -6,6 +6,7 @@
 #include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 using namespace std;
+using namespace Simple2D;
 
 #define SIZE_X   5
 #define SIZE_Y   10
