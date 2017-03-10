@@ -10,7 +10,7 @@ class AtomGridIterator : public std::iterator<std::input_iterator_tag, atomRefer
 {
 public:
 
-    static AtomGridIterator endInterator(btAtomValue **, btPositionValue, btPositionValue);
+    static AtomGridIterator endIterator(btAtomValue **, btPositionValue, btPositionValue);
 
     AtomGridIterator(btAtomValue **, btPositionValue, btPositionValue);
     AtomGridIterator(const AtomGridIterator &);
