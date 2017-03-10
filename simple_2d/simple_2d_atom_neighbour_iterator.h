@@ -9,6 +9,9 @@ namespace Simple2D {
 class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
 {
 public:
+
+    static AtomNeighbourIterator endIterator(const atomReference2D &, btPositionValue, btPositionValue);
+
     AtomNeighbourIterator(const atomReference2D &, btPositionValue, btPositionValue);
     AtomNeighbourIterator(const AtomNeighbourIterator &);
 

@@ -15,6 +15,14 @@ AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &source
     init();
 }
 
+AtomNeighbourIterator AtomNeighbourIterator::endIterator(const atomReference2D &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
+{
+    AtomNeighbourIterator iterator(inputReference, loopSizeX, loopSizeY);
+    iterator.currentPosition = 4;
+
+    return iterator;
+}
+
 void AtomNeighbourIterator::init()
 {
     neighbourReferences = new atomReference2D[4];
