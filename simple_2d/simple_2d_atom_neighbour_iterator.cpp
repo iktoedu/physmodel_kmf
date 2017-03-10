@@ -8,8 +8,8 @@ AtomNeighbourIterator::AtomNeighbourIterator(const atomReference2D &inputReferen
     init();
 }
 
-AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &sourceIterator, btPositionValue loopSizeX, btPositionValue loopSizeY)
-    : loopSizeX(loopSizeX), loopSizeY(loopSizeY)
+AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &sourceIterator)
+    : loopSizeX(sourceIterator.loopSizeX), loopSizeY(sourceIterator.loopSizeY)
 {
     startReference = sourceIterator.neighbourReferences[sourceIterator.currentPosition];
     init();

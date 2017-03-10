@@ -10,7 +10,7 @@ class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atom
 {
 public:
     AtomNeighbourIterator(const atomReference2D &, btPositionValue, btPositionValue);
-    AtomNeighbourIterator(const AtomNeighbourIterator &, btPositionValue, btPositionValue);
+    AtomNeighbourIterator(const AtomNeighbourIterator &);
 
     AtomNeighbourIterator &operator ++();
     AtomNeighbourIterator operator ++(int);
