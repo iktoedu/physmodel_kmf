@@ -4,6 +4,7 @@
 #include "core_2d/core_2d_atom_reference.h"
 #include "core_2d/core_2d_util.h"
 #include "simple_2d/simple_2d_atom_neighbour_iterator.h"
+#include "simple_2d/simple_2d_atom_grid_iterator.h"
 
 using namespace std;
 using namespace Simple2D;
@@ -36,15 +37,25 @@ int main(int argc, char *argv[])
     cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(ref) << endl;
 
     AtomNeighbourIterator it(ref, SIZE_X, SIZE_Y);
-    for (int i = 0; i < 4; i++, it++) {
+    AtomNeighbourIterator end = AtomNeighbourIterator::endIterator(ref, SIZE_X, SIZE_Y);
+    for (; it != end; ++it) {
         cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(*it) << endl;
 
         AtomNeighbourIterator innerIt(*it, SIZE_X, SIZE_Y);
-        for (int j = 0; j < 4; j++, innerIt++) {
+        AtomNeighbourIterator innerEnd = AtomNeighbourIterator::endIterator(*it, SIZE_X, SIZE_Y);
+        for (; innerIt != innerEnd; ++innerIt) {
             cout << setfill(' ') << setw(10);
             cout << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(*innerIt);
         }
         cout << endl;
+    }
+
+    {
+        AtomGridIterator it(field, SIZE_X, SIZE_Y);
+        AtomGridIterator end = AtomGridIterator::endIterator(field, SIZE_X, SIZE_Y);
+        for (; it != end; ++it) {
+            cout << setfill(' ') << setw(10) << setprecision(2) << fixed << CORE_2D_RESOLVE_ATOM_REFERENCE(*it);
+        }
     }
 
     core_2d_deallocate_field(field, SIZE_X, SIZE_Y);
