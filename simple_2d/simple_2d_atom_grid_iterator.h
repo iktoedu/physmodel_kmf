@@ -9,6 +9,9 @@ namespace Simple2D {
 class AtomGridIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
 {
 public:
+
+    static AtomGridIterator endInterator(btAtomValue **, btPositionValue, btPositionValue);
+
     AtomGridIterator(btAtomValue **, btPositionValue, btPositionValue);
     AtomGridIterator(const AtomGridIterator &);
 

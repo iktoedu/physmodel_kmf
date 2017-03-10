@@ -14,6 +14,15 @@ AtomGridIterator::AtomGridIterator(const AtomGridIterator &iterator)
 {
 }
 
+AtomGridIterator AtomGridIterator::endInterator(btAtomValue **field, btPositionValue sizeX, btPositionValue sizeY)
+{
+    AtomGridIterator iterator(field, sizeX, sizeY);
+    iterator.mvPositionX = 0;
+    iterator.mvPositionY = iterator.mvSizeY;
+
+    return iterator;
+}
+
 AtomGridIterator &AtomGridIterator::operator ++()
 {
     ++mvPositionX;
