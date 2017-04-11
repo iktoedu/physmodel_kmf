@@ -5,5 +5,6 @@
 
 typedef double atom_value_t;
 typedef uint8_t position_value_t;
+typedef uint64_t progress_unit_t;
 
 #endif // CORE_TYPES_H
