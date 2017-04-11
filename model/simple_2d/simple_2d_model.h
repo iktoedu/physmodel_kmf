@@ -25,6 +25,8 @@ public:
     Model(model_settigns_t, model_state_t, atom_value_t **);
     ~Model();
 
+    bool isInitialized();
+
     void think();
 
     model_settigns_t getModelSettings();
@@ -38,11 +40,14 @@ public:
     bool isModellingEnded();
 
 private:
-    model_settigns_t settings;
-    model_state_t state;
 
-    atom_value_t **data = 0;
-    atom_value_t **shadowData = 0;
+    bool mvIsInitialized;
+
+    model_settigns_t mvSettings;
+    model_state_t mvState;
+
+    atom_value_t **mvpData = 0;
+    atom_value_t **mvpShadowData = 0;
 
     void allocateData();
     void allocateShadowData();

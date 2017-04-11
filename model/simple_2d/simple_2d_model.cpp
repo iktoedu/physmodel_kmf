@@ -7,69 +7,75 @@ namespace Simple2D {
 
 Model::Model(position_value_t sizeX, position_value_t sizeY)
 {
-    settings.sizeX = sizeX;
-    settings.sizeY = sizeY;
+    mvSettings.sizeX = sizeX;
+    mvSettings.sizeY = sizeY;
     allocateData();
-    allocateShadowData();
+    mvIsInitialized = false;
 }
 
 Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data)
-    : settings(settings), state(state), data(data)
+    : mvSettings(settings), mvState(state), mvpData(data)
 {
     allocateShadowData();
+    mvIsInitialized = true;
 }
 
 Model::~Model()
 {
-    if (shadowData) {
-        core_2d_deallocate_field(shadowData, settings.sizeX, settings.sizeY);
+    if (mvpShadowData) {
+        core_2d_deallocate_field(mvpShadowData, mvSettings.sizeX, mvSettings.sizeY);
     }
-    core_2d_deallocate_field(data, settings.sizeX, settings.sizeY);
+    core_2d_deallocate_field(mvpData, mvSettings.sizeX, mvSettings.sizeY);
 }
 
 model_settigns_t Model::getModelSettings()
 {
-    return settings;
+    return mvSettings;
 }
 
 model_state_t Model::getModelState()
 {
-    return state;
+    return mvState;
 }
 
 atom_value_t **Model::getDataPointer()
 {
-    return data;
+    return mvpData;
+}
+
+bool Model::isInitialized()
+{
+    return mvIsInitialized;
 }
 
 void Model::think()
 {
-    state.tCurrent += settings.tStep;
+    mvState.tCurrent += mvSettings.tStep;
 }
 
 progress_unit_t Model::getTotalSteps()
 {
-    return floor((settings.tEnd - settings.tStart) / settings.tStep);
+    return floor((mvSettings.tEnd - mvSettings.tStart) / mvSettings.tStep);
 }
 
 progress_unit_t Model::getCurrentStep()
 {
-    return floor((state.tCurrent - settings.tStart) / settings.tStep);
+    return floor((mvState.tCurrent - mvSettings.tStart) / mvSettings.tStep);
 }
 
 bool Model::isModellingEnded()
 {
-    return (state.tCurrent < settings.tEnd);
+    return (mvState.tCurrent < mvSettings.tEnd);
 }
 
 void Model::allocateData()
 {
-    data = core_2d_allocate_field(settings.sizeX, settings.sizeY);
+    mvpData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
 void Model::allocateShadowData()
 {
-    shadowData = core_2d_allocate_field(settings.sizeX, settings.sizeY);
+    mvpShadowData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
 } // namespace Simple2D

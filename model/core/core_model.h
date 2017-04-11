@@ -8,6 +8,7 @@ class CoreModel
 public:
     CoreModel();
 
+    virtual bool isInitialized() = 0;
     virtual void think() = 0;
     virtual progress_unit_t getTotalSteps() = 0;
     virtual progress_unit_t getCurrentStep() = 0;
