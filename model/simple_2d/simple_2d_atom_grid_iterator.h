@@ -6,13 +6,13 @@
 
 namespace Simple2D {
 
-class AtomGridIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
+class AtomGridIterator : public std::iterator<std::input_iterator_tag, atom_reference_2d_t>
 {
 public:
 
-    static AtomGridIterator endIterator(btAtomValue **, btPositionValue, btPositionValue);
+    static AtomGridIterator endIterator(atom_value_t **, position_value_t, position_value_t);
 
-    AtomGridIterator(btAtomValue **, btPositionValue, btPositionValue);
+    AtomGridIterator(atom_value_t **, position_value_t, position_value_t);
     AtomGridIterator(const AtomGridIterator &);
 
     AtomGridIterator &operator ++();
@@ -21,16 +21,16 @@ public:
     bool operator ==(const AtomGridIterator &);
     bool operator !=(const AtomGridIterator &);
 
-    atomReference2D operator *();
+    atom_reference_2d_t operator *();
 
 private:
-    btAtomValue **mvpField;
+    atom_value_t **mvpField;
 
-    btPositionValue mvSizeX;
-    btPositionValue mvSizeY;
+    position_value_t mvSizeX;
+    position_value_t mvSizeY;
 
-    btPositionValue mvPositionX;
-    btPositionValue mvPositionY;
+    position_value_t mvPositionX;
+    position_value_t mvPositionY;
 };
 
 } // namespace Simple2D

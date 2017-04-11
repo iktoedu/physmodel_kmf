@@ -2,7 +2,7 @@
 
 namespace Simple2D {
 
-AtomNeighbourIterator::AtomNeighbourIterator(const atomReference2D &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
+AtomNeighbourIterator::AtomNeighbourIterator(const atom_reference_2d_t &inputReference, position_value_t loopSizeX, position_value_t loopSizeY)
     : startReference(inputReference), loopSizeX(loopSizeX), loopSizeY(loopSizeY)
 {
     init();
@@ -15,7 +15,7 @@ AtomNeighbourIterator::AtomNeighbourIterator(const AtomNeighbourIterator &source
     init();
 }
 
-AtomNeighbourIterator AtomNeighbourIterator::endIterator(const atomReference2D &inputReference, btPositionValue loopSizeX, btPositionValue loopSizeY)
+AtomNeighbourIterator AtomNeighbourIterator::endIterator(const atom_reference_2d_t &inputReference, position_value_t loopSizeX, position_value_t loopSizeY)
 {
     AtomNeighbourIterator iterator(inputReference, loopSizeX, loopSizeY);
     iterator.currentPosition = 4;
@@ -25,7 +25,7 @@ AtomNeighbourIterator AtomNeighbourIterator::endIterator(const atomReference2D &
 
 void AtomNeighbourIterator::init()
 {
-    neighbourReferences = new atomReference2D[4];
+    neighbourReferences = new atom_reference_2d_t[4];
 
     neighbourReferences[0].field = startReference.field;
     neighbourReferences[0].x = startReference.x;
@@ -46,7 +46,7 @@ void AtomNeighbourIterator::init()
     currentPosition = 0;
 }
 
-atomReference2D &AtomNeighbourIterator::operator *()
+atom_reference_2d_t &AtomNeighbourIterator::operator *()
 {
     return neighbourReferences[currentPosition];
 }

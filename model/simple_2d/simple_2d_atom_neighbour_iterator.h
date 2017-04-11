@@ -6,13 +6,13 @@
 
 namespace Simple2D {
 
-class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atomReference2D>
+class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atom_reference_2d_t>
 {
 public:
 
-    static AtomNeighbourIterator endIterator(const atomReference2D &, btPositionValue, btPositionValue);
+    static AtomNeighbourIterator endIterator(const atom_reference_2d_t &, position_value_t, position_value_t);
 
-    AtomNeighbourIterator(const atomReference2D &, btPositionValue, btPositionValue);
+    AtomNeighbourIterator(const atom_reference_2d_t &, position_value_t, position_value_t);
     AtomNeighbourIterator(const AtomNeighbourIterator &);
 
     AtomNeighbourIterator &operator ++();
@@ -21,15 +21,15 @@ public:
     bool operator ==(const AtomNeighbourIterator &);
     bool operator !=(const AtomNeighbourIterator &);
 
-    atomReference2D &operator *();
+    atom_reference_2d_t &operator *();
 
 private:
-    atomReference2D startReference;
-    atomReference2D *neighbourReferences;
+    atom_reference_2d_t startReference;
+    atom_reference_2d_t *neighbourReferences;
     int currentPosition;
 
-    btPositionValue loopSizeX;
-    btPositionValue loopSizeY;
+    position_value_t loopSizeX;
+    position_value_t loopSizeY;
 
     void init();
 };

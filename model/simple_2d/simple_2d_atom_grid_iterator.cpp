@@ -2,7 +2,7 @@
 
 namespace Simple2D {
 
-AtomGridIterator::AtomGridIterator(btAtomValue **field, btPositionValue sizeX, btPositionValue sizeY)
+AtomGridIterator::AtomGridIterator(atom_value_t **field, position_value_t sizeX, position_value_t sizeY)
     : mvpField(field), mvSizeX(sizeX), mvSizeY(sizeY)
 {
     mvPositionX = 0;
@@ -14,7 +14,7 @@ AtomGridIterator::AtomGridIterator(const AtomGridIterator &iterator)
 {
 }
 
-AtomGridIterator AtomGridIterator::endIterator(btAtomValue **field, btPositionValue sizeX, btPositionValue sizeY)
+AtomGridIterator AtomGridIterator::endIterator(atom_value_t **field, position_value_t sizeX, position_value_t sizeY)
 {
     AtomGridIterator iterator(field, sizeX, sizeY);
     iterator.mvPositionX = 0;
@@ -58,9 +58,9 @@ AtomGridIterator AtomGridIterator::operator ++(int)
     return current;
 }
 
-atomReference2D AtomGridIterator::operator *()
+atom_reference_2d_t AtomGridIterator::operator *()
 {
-    atomReference2D ref;
+    atom_reference_2d_t ref;
     ref.field = mvpField;
     ref.x = mvPositionX;
     ref.y = mvPositionY;

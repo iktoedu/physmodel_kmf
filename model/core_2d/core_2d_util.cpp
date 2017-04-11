@@ -1,27 +1,27 @@
 #include "core_2d_util.h"
 
-btAtomValue **core_2d_allocate_field(btPositionValue sizeX, btPositionValue sizeY)
+atom_value_t **core_2d_allocate_field(position_value_t sizeX, position_value_t sizeY)
 {
-    btAtomValue **field = new btAtomValue*[sizeY];
-    for (btPositionValue y = 0; y < sizeY; y++) {
-        field[y] = new btAtomValue[sizeX];
+    atom_value_t **field = new atom_value_t*[sizeY];
+    for (position_value_t y = 0; y < sizeY; y++) {
+        field[y] = new atom_value_t[sizeX];
     }
 
     return field;
 }
 
-void core_2d_deallocate_field(btAtomValue **field, btPositionValue sizeX, btPositionValue sizeY)
+void core_2d_deallocate_field(atom_value_t **field, position_value_t sizeX, position_value_t sizeY)
 {
-    for (btPositionValue y = 0; y < sizeY; y++) {
+    for (position_value_t y = 0; y < sizeY; y++) {
         delete [] field[y];
     }
     delete [] field;
 }
 
-void core_2d_generate_field_values(btAtomValue **field, btPositionValue sizeX, btPositionValue sizeY, std::function<btAtomValue (btPositionValue, btPositionValue)> callback)
+void core_2d_generate_field_values(atom_value_t **field, position_value_t sizeX, position_value_t sizeY, std::function<atom_value_t (position_value_t, position_value_t)> callback)
 {
-    for (btPositionValue y = 0; y < sizeY; y++) {
-        for (btPositionValue x = 0; x < sizeX; x++) {
+    for (position_value_t y = 0; y < sizeY; y++) {
+        for (position_value_t x = 0; x < sizeX; x++) {
             field[y][x] = callback(x, y);
         }
     }
