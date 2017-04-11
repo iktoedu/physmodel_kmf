@@ -28,6 +28,27 @@ Model::~Model()
     core_2d_deallocate_field(mvpData, mvSettings.sizeX, mvSettings.sizeY);
 }
 
+void Model::init(double tStart, double tEnd, double tStep)
+{
+    mvSettings.tStart   = tStart;
+    mvSettings.tEnd     = tEnd;
+    mvSettings.tStep    = tStep;
+
+    mvState.tCurrent    = mvSettings.tStart;
+
+    mvIsInitialized     = true;
+}
+
+bool Model::isInitialized()
+{
+    return mvIsInitialized;
+}
+
+void Model::think()
+{
+    mvState.tCurrent += mvSettings.tStep;
+}
+
 model_settigns_t Model::getModelSettings()
 {
     return mvSettings;
@@ -41,16 +62,6 @@ model_state_t Model::getModelState()
 atom_value_t **Model::getDataPointer()
 {
     return mvpData;
-}
-
-bool Model::isInitialized()
-{
-    return mvIsInitialized;
-}
-
-void Model::think()
-{
-    mvState.tCurrent += mvSettings.tStep;
 }
 
 progress_unit_t Model::getTotalSteps()

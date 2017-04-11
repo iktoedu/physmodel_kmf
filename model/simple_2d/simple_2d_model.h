@@ -25,6 +25,8 @@ public:
     Model(model_settigns_t, model_state_t, atom_value_t **);
     ~Model();
 
+    void init(double, double, double);
+
     bool isInitialized();
 
     void think();
