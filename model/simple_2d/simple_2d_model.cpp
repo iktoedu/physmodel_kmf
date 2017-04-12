@@ -105,9 +105,15 @@ void Model::postThink()
 {
     // Flush new state to buffer
     {
-        atom_value_t **tmp = mvpData;
-        mvpData = mvpTemporalData;
-        mvpTemporalData = tmp;
+        // Exchanging row by row is required here
+        // Because we have many references to mvpData
+        // So I'll become crazy if I decide to update them all
+        atom_value_t *tmp;
+        for (position_value_t y = 0; y < mvSettings.sizeY; ++y) {
+            tmp = mvpData[y];
+            mvpData[y] = mvpTemporalData[y];
+            mvpTemporalData[y] = tmp;
+        }
     }
 
     mvState.tCurrent += mvSettings.tStep;
