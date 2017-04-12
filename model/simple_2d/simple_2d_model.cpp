@@ -110,6 +110,7 @@ void Model::postThink()
     core_2d_exchange_fields_lv1(mvpData, mvpTemporalData, mvSettings.sizeX, mvSettings.sizeY);
 
     mvState.tCurrent += mvSettings.tStep;
+    ++mvTemporalCurrentStep;
 }
 
 model_settigns_t Model::getModelSettings()
@@ -129,12 +130,12 @@ atom_value_t **Model::getDataPointer()
 
 progress_unit_t Model::getTotalSteps()
 {
-    return floor((mvSettings.tEnd - mvSettings.tStart) / mvSettings.tStep);
+    return mvTemporalTotalSteps;
 }
 
 progress_unit_t Model::getCurrentStep()
 {
-    return floor((mvState.tCurrent - mvSettings.tStart) / mvSettings.tStep);
+    return mvTemporalCurrentStep;
 }
 
 bool Model::isModellingEnded()
@@ -175,6 +176,9 @@ void Model::initTemporalVariables()
     mvTemporalPhiAA = -5e-20;
     mvTemporalPhiAB = -2e-20;
     mvTemporalPhiBB = -6e-20;
+
+    mvTemporalTotalSteps    = floor((mvSettings.tEnd - mvSettings.tStart) / mvSettings.tStep);
+    mvTemporalCurrentStep   = floor((mvState.tCurrent - mvSettings.tStart) / mvSettings.tStep);
 }
 
 void Model::cleanupTemporalVariables()

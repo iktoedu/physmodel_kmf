@@ -71,6 +71,8 @@ private:
     double mvTemporalPhiAA;
     double mvTemporalPhiAB;
     double mvTemporalPhiBB;
+    progress_unit_t mvTemporalTotalSteps;
+    progress_unit_t mvTemporalCurrentStep;
 
     void allocateData();
     void allocateTemporalShadowData();
