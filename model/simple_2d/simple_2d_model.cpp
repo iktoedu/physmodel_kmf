@@ -78,6 +78,9 @@ void Model::think()
             mvpTemporalDirectSumData[atom.y][atom.x] += CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour);
             mvpTemporalReverseSumData[atom.y][atom.x] += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour));
         }
+
+        mvpTemporalDirectSumData[atom.y][atom.x] /= PHYSICS_CONSTANT_EV;
+        mvpTemporalReverseSumData[atom.y][atom.x] /= PHYSICS_CONSTANT_EV;
     }
 
     // Move to the start
@@ -198,8 +201,13 @@ atom_value_t Model::getAtomDelta(atom_reference_2d_t &atom)
 
 double Model::getAtomExProb(atom_reference_2d_t &a, atom_reference_2d_t &b)
 {
-    // TODO Implement Gamma
-    return 0;
+    return mvTemporalNu0 * exp(-(mvTemporalEs - getInteractionEnergy(a, b)) / mvTemporalTheta);
+}
+
+double Model::getInteractionEnergy(atom_reference_2d_t &a, atom_reference_2d_t &b)
+{
+    return mvTemporalPhiAA * getNeighboursDirectSum(a) + mvTemporalPhiAB * getNeighboursReverseSum(a) +
+            mvTemporalPhiAB * getNeighboursDirectSum(b) + mvTemporalPhiBB * getNeighboursReverseSum(b);
 }
 
 atom_value_t Model::getNeighboursDirectSum(atom_reference_2d_t &atom)
