@@ -20,14 +20,6 @@ AtomNeighbourIterator::~AtomNeighbourIterator()
     delete [] neighbourReferences;
 }
 
-AtomNeighbourIterator AtomNeighbourIterator::endIterator(const atom_reference_2d_t &inputReference, position_value_t loopSizeX, position_value_t loopSizeY)
-{
-    AtomNeighbourIterator iterator(inputReference, loopSizeX, loopSizeY);
-    iterator.currentPosition = 4;
-
-    return iterator;
-}
-
 void AtomNeighbourIterator::init()
 {
     neighbourReferences = new atom_reference_2d_t[4];

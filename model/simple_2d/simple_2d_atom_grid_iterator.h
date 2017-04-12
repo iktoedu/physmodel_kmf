@@ -10,9 +10,6 @@ class AtomGridIterator : public std::iterator<std::input_iterator_tag, atom_refe
 {
 public:
 
-    static AtomGridIterator endIterator(atom_value_t **, position_value_t, position_value_t);
-    static AtomGridIterator *endIteratorPointer(atom_value_t **, position_value_t, position_value_t);
-
     AtomGridIterator(atom_value_t **, position_value_t, position_value_t);
     AtomGridIterator(const AtomGridIterator &);
 

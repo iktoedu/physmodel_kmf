@@ -14,24 +14,6 @@ AtomGridIterator::AtomGridIterator(const AtomGridIterator &iterator)
 {
 }
 
-AtomGridIterator AtomGridIterator::endIterator(atom_value_t **field, position_value_t sizeX, position_value_t sizeY)
-{
-    AtomGridIterator iterator(field, sizeX, sizeY);
-    iterator.mvPositionX = 0;
-    iterator.mvPositionY = iterator.mvSizeY;
-
-    return iterator;
-}
-
-AtomGridIterator *AtomGridIterator::endIteratorPointer(atom_value_t **field, position_value_t sizeX, position_value_t sizeY)
-{
-    AtomGridIterator *iterator = new AtomGridIterator(field, sizeX, sizeY);
-    iterator->mvPositionX = 0;
-    iterator->mvPositionY = iterator->mvSizeY;
-
-    return iterator;
-}
-
 AtomGridIterator &AtomGridIterator::operator ++()
 {
     ++mvPositionX;

@@ -64,9 +64,7 @@ private:
     // Let's create atom grid iterator only once
     // For other iterations - re-use existing
     AtomGridIterator *mvpAtomGridIterator = 0;
-    AtomGridIterator *mvpAtomGridEndIterator = 0;
     AtomGridIterator &getAtomGridIterator();
-    AtomGridIterator &getAtomGridEndIterator();
 };
 
 } // namespace Simple2D

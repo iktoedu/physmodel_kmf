@@ -27,11 +27,6 @@ Model::~Model()
         mvpAtomGridIterator = 0;
     }
 
-    if (mvpAtomGridEndIterator) {
-        delete mvpAtomGridEndIterator;
-        mvpAtomGridEndIterator = 0;
-    }
-
     if (mvpShadowData) {
         core_2d_deallocate_field(mvpShadowData, mvSettings.sizeX, mvSettings.sizeY);
     }
@@ -58,9 +53,8 @@ bool Model::isInitialized()
 void Model::think()
 {
     AtomGridIterator it = getAtomGridIterator();
-    AtomGridIterator end = getAtomGridEndIterator();
 
-    for (; it != end; ++it) {
+    for (; !it.atEnd(); ++it) {
         atom_reference_2d_t atom = *it;
 
         mvpShadowData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
@@ -115,9 +109,8 @@ atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
     double sumGammaRight    = 0;
 
     AtomNeighbourIterator it(atom, mvSettings.sizeX, mvSettings.sizeY);
-    AtomNeighbourIterator end = AtomNeighbourIterator::endIterator(atom, mvSettings.sizeX, mvSettings.sizeY);
 
-    for (; it != end; ++it) {
+    for (; !it.atEnd(); ++it) {
         sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * atomExchangeFrequency(atom, *it);
         sumGammaRight += CORE_2D_RESOLVE_ATOM_REFERENCE(*it) * atomExchangeFrequency(*it, atom);
     }
@@ -136,18 +129,9 @@ AtomGridIterator &Model::getAtomGridIterator()
     if (!mvpAtomGridIterator) {
         mvpAtomGridIterator = new AtomGridIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
     }
-    mvpAtomGridIterator->reset();
+//    mvpAtomGridIterator->reset();
 
     return *mvpAtomGridIterator;
-}
-
-AtomGridIterator &Model::getAtomGridEndIterator()
-{
-    if (!mvpAtomGridEndIterator) {
-        mvpAtomGridEndIterator = AtomGridIterator::endIteratorPointer(mvpData, mvSettings.sizeX, mvSettings.sizeY);
-    }
-
-    return *mvpAtomGridEndIterator;
 }
 
 } // namespace Simple2D

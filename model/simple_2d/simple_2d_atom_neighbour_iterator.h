@@ -10,8 +10,6 @@ class AtomNeighbourIterator : public std::iterator<std::input_iterator_tag, atom
 {
 public:
 
-    static AtomNeighbourIterator endIterator(const atom_reference_2d_t &, position_value_t, position_value_t);
-
     AtomNeighbourIterator(const atom_reference_2d_t &, position_value_t, position_value_t);
     AtomNeighbourIterator(const AtomNeighbourIterator &);
 
