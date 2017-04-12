@@ -318,4 +318,9 @@ atom_value_t Model::getGridDataSum()
     return sum;
 }
 
+atom_value_t Model::getSystemSum()
+{
+    return getGridDataSum();
+}
+
 } // namespace Simple2D

@@ -14,6 +14,8 @@ public:
     virtual progress_unit_t getCurrentStep() = 0;
     virtual bool isModellingEnded() = 0;
 
+    virtual atom_value_t getSystemSum();
+
 protected:
     virtual void preThink();
     virtual void postThink();

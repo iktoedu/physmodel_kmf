@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <ctime>
+#include <cmath>
 #include "core/core_model.h"
 #include "simple_2d/simple_2d_util.h"
 
@@ -24,6 +25,9 @@ int main(int argc, char *argv[])
     double timeTotal, timeSpent;
     progress_unit_t currentStep;
 
+    atom_value_t initialSystemSum = model->getSystemSum();
+    uint8_t systemSumCheckCounter = 0;
+
     while (!model->isModellingEnded()) {
         model->think();
 
@@ -37,6 +41,16 @@ int main(int argc, char *argv[])
                 << setw(12) << currentStep
                 << setw(12) << timeTotal
                 << setw(12) << timeSpent;
+        ++systemSumCheckCounter;
+        if (systemSumCheckCounter == 100) {
+            if (fabs(initialSystemSum - model->getSystemSum()) > 1e-1) {
+                cout << endl << endl << "[EMERG] SYSTEM SUM HAS BEEN CHANGED!!" << endl;
+                cout << "Initial: " << initialSystemSum << endl;
+                cout << "Current: " << model->getSystemSum() << endl;
+                exit(1);
+            }
+            systemSumCheckCounter = 0;
+        }
     }
 
     cout << endl;

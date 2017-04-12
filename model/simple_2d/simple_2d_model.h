@@ -47,6 +47,7 @@ public:
     bool isModellingEnded();
 
     atom_value_t getGridDataSum();
+    atom_value_t getSystemSum();
 
 protected:
     void preThink();
