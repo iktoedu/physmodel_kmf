@@ -308,4 +308,17 @@ AtomNeighbourIterator &Model::getAtomNeighbourLv2Iterator(const atom_reference_2
     return *iterator;
 }
 
+atom_value_t Model::getGridDataSum()
+{
+    atom_value_t sum = 0;
+
+    AtomGridIterator &it = getAtomGridIterator();
+
+    for (; !it.atEnd(); ++it) {
+        sum += CORE_2D_RESOLVE_ATOM_REFERENCE(*it);
+    }
+
+    return sum;
+}
+
 } // namespace Simple2D
