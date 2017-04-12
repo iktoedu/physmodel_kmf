@@ -15,6 +15,8 @@ public:
     AtomNeighbourIterator(const atom_reference_2d_t &, position_value_t, position_value_t);
     AtomNeighbourIterator(const AtomNeighbourIterator &);
 
+    ~AtomNeighbourIterator();
+
     AtomNeighbourIterator &operator ++();
     AtomNeighbourIterator operator ++(int);
 
