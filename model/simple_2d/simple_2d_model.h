@@ -46,6 +46,10 @@ public:
 
     bool isModellingEnded();
 
+protected:
+    void preThink();
+    void postThink();
+
 private:
 
     bool mvIsInitialized;

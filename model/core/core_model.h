@@ -13,6 +13,10 @@ public:
     virtual progress_unit_t getTotalSteps() = 0;
     virtual progress_unit_t getCurrentStep() = 0;
     virtual bool isModellingEnded() = 0;
+
+protected:
+    virtual void preThink();
+    virtual void postThink();
 };
 
 #endif // CORE_MODEL_H

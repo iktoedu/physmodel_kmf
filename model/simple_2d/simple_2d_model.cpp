@@ -62,6 +62,22 @@ bool Model::isInitialized()
 
 void Model::think()
 {
+    preThink();
+
+    AtomGridIterator &it = getAtomGridIterator();
+
+    // Calculate new state
+    for (; !it.atEnd(); ++it) {
+        atom_reference_2d_t atom = *it;
+
+        mvpTemporalData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + getAtomDelta(atom) * mvSettings.tStep;
+    }
+
+    postThink();
+}
+
+void Model::preThink()
+{
     AtomGridIterator &it = getAtomGridIterator();
 
     // Calculating sums of neighbour values
@@ -82,17 +98,10 @@ void Model::think()
         mvpTemporalDirectSumData[atom.y][atom.x] /= PHYSICS_CONSTANT_EV;
         mvpTemporalReverseSumData[atom.y][atom.x] /= PHYSICS_CONSTANT_EV;
     }
+}
 
-    // Move to the start
-    it.reset();
-
-    // Calculate new state
-    for (; !it.atEnd(); ++it) {
-        atom_reference_2d_t atom = *it;
-
-        mvpTemporalData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + getAtomDelta(atom) * mvSettings.tStep;
-    }
-
+void Model::postThink()
+{
     // Flush new state to buffer
     {
         atom_value_t **tmp = mvpData;

@@ -2,5 +2,12 @@
 
 CoreModel::CoreModel()
 {
+}
 
+void CoreModel::preThink()
+{
+}
+
+void CoreModel::postThink()
+{
 }
