@@ -16,9 +16,7 @@ Model::Model(position_value_t sizeX, position_value_t sizeY)
 Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data)
     : mvSettings(settings), mvState(state), mvpData(data)
 {
-    allocateTemporalShadowData();
-    allocateTemporalDirectSumData();
-    allocateTemporalReverseSumData();
+    initTemporalVariables();
     mvIsInitialized = true;
 }
 
@@ -39,15 +37,7 @@ Model::~Model()
         mvpAtomGridIterator = 0;
     }
 
-    if (mvpTemporalReverseSumData) {
-        core_2d_deallocate_field(mvpTemporalReverseSumData, mvSettings.sizeX, mvSettings.sizeY);
-    }
-    if (mvpTemporalDirectSumData) {
-        core_2d_deallocate_field(mvpTemporalDirectSumData, mvSettings.sizeX, mvSettings.sizeY);
-    }
-    if (mvpTemporalData) {
-        core_2d_deallocate_field(mvpTemporalData, mvSettings.sizeX, mvSettings.sizeY);
-    }
+    cleanupTemporalVariables();
     core_2d_deallocate_field(mvpData, mvSettings.sizeX, mvSettings.sizeY);
 }
 
@@ -60,9 +50,7 @@ void Model::init(double tStart, double tEnd, double tStep, double temperature)
 
     mvState.tCurrent    = mvSettings.tStart;
 
-    allocateTemporalShadowData();
-    allocateTemporalDirectSumData();
-    allocateTemporalReverseSumData();
+    initTemporalVariables();
     mvIsInitialized     = true;
 }
 
@@ -159,6 +147,29 @@ void Model::allocateTemporalDirectSumData()
 void Model::allocateTemporalReverseSumData()
 {
     mvpTemporalReverseSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+}
+
+void Model::initTemporalVariables()
+{
+    allocateTemporalShadowData();
+    allocateTemporalDirectSumData();
+    allocateTemporalReverseSumData();
+}
+
+void Model::cleanupTemporalVariables()
+{
+    if (mvpTemporalReverseSumData) {
+        core_2d_deallocate_field(mvpTemporalReverseSumData, mvSettings.sizeX, mvSettings.sizeY);
+        mvpTemporalReverseSumData = 0;
+    }
+    if (mvpTemporalDirectSumData) {
+        core_2d_deallocate_field(mvpTemporalDirectSumData, mvSettings.sizeX, mvSettings.sizeY);
+        mvpTemporalDirectSumData = 0;
+    }
+    if (mvpTemporalData) {
+        core_2d_deallocate_field(mvpTemporalData, mvSettings.sizeX, mvSettings.sizeY);
+        mvpTemporalData = 0;
+    }
 }
 
 atom_value_t Model::getAtomDelta(atom_reference_2d_t &atom)

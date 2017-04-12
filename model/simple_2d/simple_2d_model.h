@@ -64,6 +64,9 @@ private:
     void allocateTemporalDirectSumData();
     void allocateTemporalReverseSumData();
 
+    void initTemporalVariables();
+    void cleanupTemporalVariables();
+
     atom_value_t getAtomDelta(atom_reference_2d_t &);
     double getAtomExProb(atom_reference_2d_t &, atom_reference_2d_t &);
 
