@@ -98,7 +98,7 @@ void Model::think()
     for (; !it.atEnd(); ++it) {
         atom_reference_2d_t atom = *it;
 
-        mvpTemporalData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
+        mvpTemporalData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + getAtomDelta(atom) * mvSettings.tStep;
     }
 
     // Flush new state to buffer
@@ -161,7 +161,7 @@ void Model::allocateTemporalReverseSumData()
     mvpTemporalReverseSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
-atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
+atom_value_t Model::getAtomDelta(atom_reference_2d_t &atom)
 {
     double sumGammaLeft     = 0;
     double sumGammaRight    = 0;
@@ -169,17 +169,27 @@ atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
     AtomNeighbourIterator &it = getAtomNeighbourLv1Iterator(atom);
 
     for (; !it.atEnd(); ++it) {
-        sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * atomExchangeFrequency(atom, *it);
-        sumGammaRight += CORE_2D_RESOLVE_ATOM_REFERENCE(*it) * atomExchangeFrequency(*it, atom);
+        sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * getAtomExProb(atom, *it);
+        sumGammaRight += CORE_2D_RESOLVE_ATOM_REFERENCE(*it) * getAtomExProb(*it, atom);
     }
 
     return (-CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaLeft + (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaRight;
 }
 
-double Model::atomExchangeFrequency(atom_reference_2d_t &a, atom_reference_2d_t &b)
+double Model::getAtomExProb(atom_reference_2d_t &a, atom_reference_2d_t &b)
 {
     // TODO Implement Gamma
     return 0;
+}
+
+atom_value_t Model::getNeighboursDirectSum(atom_reference_2d_t &atom)
+{
+    return mvpTemporalDirectSumData[atom.y][atom.x];
+}
+
+atom_value_t Model::getNeighboursReverseSum(atom_reference_2d_t &atom)
+{
+    return mvpTemporalReverseSumData[atom.y][atom.x];
 }
 
 AtomGridIterator &Model::getAtomGridIterator()

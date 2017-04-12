@@ -64,8 +64,11 @@ private:
     void allocateTemporalDirectSumData();
     void allocateTemporalReverseSumData();
 
-    atom_value_t atomDelta(atom_reference_2d_t &);
-    double atomExchangeFrequency(atom_reference_2d_t &, atom_reference_2d_t &);
+    atom_value_t getAtomDelta(atom_reference_2d_t &);
+    double getAtomExProb(atom_reference_2d_t &, atom_reference_2d_t &);
+
+    atom_value_t getNeighboursDirectSum(atom_reference_2d_t &);
+    atom_value_t getNeighboursReverseSum(atom_reference_2d_t &);
 
     // Let's create atom grid iterator only once
     // For other iterations - re-use existing
