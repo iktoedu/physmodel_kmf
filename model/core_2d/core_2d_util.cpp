@@ -26,3 +26,16 @@ void core_2d_generate_field_values(atom_value_t **field, position_value_t sizeX,
         }
     }
 }
+
+void core_2d_exchange_fields_lv1(atom_value_t **a, atom_value_t **b, position_value_t sizeX, position_value_t sizeY)
+{
+    // Exchanging row by row is required here
+    // Because we have many references to mvpData
+    // So I'll become crazy if I decide to update them all
+    atom_value_t *tmp;
+    for (position_value_t y = 0; y < sizeY; ++y) {
+        tmp = a[y];
+        a[y] = b[y];
+        b[y] = tmp;
+    }
+}

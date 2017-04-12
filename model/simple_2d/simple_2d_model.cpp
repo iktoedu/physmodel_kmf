@@ -104,17 +104,10 @@ void Model::preThink()
 void Model::postThink()
 {
     // Flush new state to buffer
-    {
-        // Exchanging row by row is required here
-        // Because we have many references to mvpData
-        // So I'll become crazy if I decide to update them all
-        atom_value_t *tmp;
-        for (position_value_t y = 0; y < mvSettings.sizeY; ++y) {
-            tmp = mvpData[y];
-            mvpData[y] = mvpTemporalData[y];
-            mvpTemporalData[y] = tmp;
-        }
-    }
+    // Exchanging row by row is required here
+    // Because we have many references to mvpData
+    // So I'll become crazy if I decide to update them all
+    core_2d_exchange_fields_lv1(mvpData, mvpTemporalData, mvSettings.sizeX, mvSettings.sizeY);
 
     mvState.tCurrent += mvSettings.tStep;
 }
