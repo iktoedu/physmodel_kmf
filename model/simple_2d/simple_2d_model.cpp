@@ -2,6 +2,8 @@
 #include "core_2d/core_2d_util.h"
 
 #include <cmath>
+#include "simple_2d/simple_2d_atom_grid_iterator.h"
+#include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 namespace Simple2D {
 
@@ -46,6 +48,15 @@ bool Model::isInitialized()
 
 void Model::think()
 {
+    AtomGridIterator it(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    AtomGridIterator end = AtomGridIterator::endIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+
+    for (; it != end; ++it) {
+        atom_reference_2d_t atom = *it;
+
+        mvpShadowData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
+    }
+
     mvState.tCurrent += mvSettings.tStep;
 }
 
@@ -87,6 +98,27 @@ void Model::allocateData()
 void Model::allocateShadowData()
 {
     mvpShadowData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+}
+
+atom_value_t Model::atomDelta(atom_reference_2d_t atom)
+{
+    double sumGammaLeft     = 0;
+    double sumGammaRight    = 0;
+
+    AtomNeighbourIterator it(atom, mvSettings.sizeX, mvSettings.sizeY);
+    AtomNeighbourIterator end = AtomNeighbourIterator::endIterator(atom, mvSettings.sizeX, mvSettings.sizeY);
+    for (; it != end; ++it) {
+        sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * atomExchangeFrequency(atom, *it);
+        sumGammaRight += CORE_2D_RESOLVE_ATOM_REFERENCE(*it) * atomExchangeFrequency(*it, atom);
+    }
+
+    return (-CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaLeft + (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaRight;
+}
+
+double Model::atomExchangeFrequency(atom_reference_2d_t a, atom_reference_2d_t b)
+{
+    // TODO Implement Gamma
+    return 0;
 }
 
 } // namespace Simple2D
