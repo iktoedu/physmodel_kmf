@@ -37,6 +37,12 @@ Model::~Model()
         mvpAtomGridIterator = 0;
     }
 
+    if (mvpReverseSumData) {
+        core_2d_deallocate_field(mvpReverseSumData, mvSettings.sizeX, mvSettings.sizeY);
+    }
+    if (mvpDirectSumData) {
+        core_2d_deallocate_field(mvpDirectSumData, mvSettings.sizeX, mvSettings.sizeY);
+    }
     if (mvpShadowData) {
         core_2d_deallocate_field(mvpShadowData, mvSettings.sizeX, mvSettings.sizeY);
     }
@@ -119,6 +125,16 @@ void Model::allocateData()
 void Model::allocateShadowData()
 {
     mvpShadowData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+}
+
+void Model::allocateDirectSumData()
+{
+    mvpDirectSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+}
+
+void Model::allocateReverseSumData()
+{
+    mvpReverseSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
 atom_value_t Model::atomDelta(atom_reference_2d_t &atom)

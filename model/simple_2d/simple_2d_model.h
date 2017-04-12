@@ -56,8 +56,13 @@ private:
     atom_value_t **mvpData = 0;
     atom_value_t **mvpShadowData = 0;
 
+    atom_value_t **mvpDirectSumData = 0;
+    atom_value_t **mvpReverseSumData = 0;
+
     void allocateData();
     void allocateShadowData();
+    void allocateDirectSumData();
+    void allocateReverseSumData();
 
     atom_value_t atomDelta(atom_reference_2d_t &);
     double atomExchangeFrequency(atom_reference_2d_t &, atom_reference_2d_t &);
