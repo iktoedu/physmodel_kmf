@@ -3,6 +3,7 @@
 #include "basis/physics_constant.h"
 
 #include <cmath>
+#include <exception>
 
 namespace Simple2D {
 
@@ -271,7 +272,9 @@ void Model::deallocateNeighbourIterators(AtomNeighbourIterator ***p)
 
 AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2d_t &atom)
 {
-    // TODO Check main pointer
+    if (atom.field != mvpData) {
+        throw std::logic_error("bad atom reference passed: wrong buffer address");
+    }
 
     if (!mvpAtomNeighbourIteratorsLv1) {
         mvpAtomNeighbourIteratorsLv1 = allocateNeighbourIterators();
@@ -285,7 +288,9 @@ AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2
 
 AtomNeighbourIterator &Model::getAtomNeighbourLv2Iterator(const atom_reference_2d_t &atom)
 {
-    // TODO Check main pointer
+    if (atom.field != mvpData) {
+        throw std::logic_error("bad atom reference passed: wrong buffer address");
+    }
 
     if (!mvpAtomNeighbourIteratorsLv2) {
         mvpAtomNeighbourIteratorsLv2 = allocateNeighbourIterators();
