@@ -25,6 +25,14 @@ public:
 
     atom_reference_2d_t &operator *();
 
+    // Checks whether we are at the end
+    // Works much faster rather than comparison with "end" iterator
+    bool atEnd();
+
+    // Move internal pointer to the start
+    // Allows to re-use one iterator object
+    void reset();
+
 private:
     atom_reference_2d_t startReference;
     atom_reference_2d_t *neighbourReferences;

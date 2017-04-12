@@ -87,4 +87,14 @@ AtomNeighbourIterator AtomNeighbourIterator::operator ++(int)
     return current;
 }
 
+void AtomNeighbourIterator::reset()
+{
+    currentPosition = 0;
+}
+
+bool AtomNeighbourIterator::atEnd()
+{
+    return (currentPosition >= 4);
+}
+
 } // namespace Simple2D
