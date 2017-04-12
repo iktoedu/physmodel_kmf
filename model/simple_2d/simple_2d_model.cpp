@@ -22,6 +22,12 @@ Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data
 
 Model::~Model()
 {
+    if (mvpAtomNeighbourIteratorsLv1) {
+        deallocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
+        delete [] mvpAtomNeighbourIteratorsLv1;
+        mvpAtomNeighbourIteratorsLv1 = 0;
+    }
+
     if (mvpAtomGridIterator) {
         delete mvpAtomGridIterator;
         mvpAtomGridIterator = 0;
@@ -108,7 +114,7 @@ atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
     double sumGammaLeft     = 0;
     double sumGammaRight    = 0;
 
-    AtomNeighbourIterator it(atom, mvSettings.sizeX, mvSettings.sizeY);
+    AtomNeighbourIterator &it = getAtomNeighbourLv1Iterator(atom);
 
     for (; !it.atEnd(); ++it) {
         sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * atomExchangeFrequency(atom, *it);
@@ -134,6 +140,45 @@ AtomGridIterator &Model::getAtomGridIterator()
     }
 
     return *mvpAtomGridIterator;
+}
+
+void Model::allocateNeighbourIterators(AtomNeighbourIterator ***p)
+{
+    for (position_value_t y = 0; y < mvSettings.sizeY; ++y) {
+        p[y] = new AtomNeighbourIterator*[mvSettings.sizeX];
+        for (position_value_t x = 0; x < mvSettings.sizeX; ++x) {
+            atom_reference_2d_t ref;
+            ref.field = mvpData;
+            ref.x = x;
+            ref.y = y;
+            p[y][x] = new AtomNeighbourIterator(ref, mvSettings.sizeX, mvSettings.sizeY);
+        }
+    }
+}
+
+void Model::deallocateNeighbourIterators(AtomNeighbourIterator ***p)
+{
+    for (position_value_t y = 0; y < mvSettings.sizeY; ++y) {
+        for (position_value_t x = 0; x < mvSettings.sizeX; ++x) {
+            delete p[y][x];
+        }
+        delete [] p[y];
+    }
+}
+
+AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2d_t &atom)
+{
+    // TODO Check main pointer
+
+    if (!mvpAtomNeighbourIteratorsLv1) {
+        mvpAtomNeighbourIteratorsLv1 = new AtomNeighbourIterator**[mvSettings.sizeY];
+        allocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
+    }
+
+    AtomNeighbourIterator *iterator = mvpAtomNeighbourIteratorsLv1[atom.y][atom.x];
+    iterator->reset();
+
+    return *iterator;
 }
 
 } // namespace Simple2D

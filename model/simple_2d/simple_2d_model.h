@@ -65,6 +65,12 @@ private:
     // For other iterations - re-use existing
     AtomGridIterator *mvpAtomGridIterator = 0;
     AtomGridIterator &getAtomGridIterator();
+
+    AtomNeighbourIterator ***mvpAtomNeighbourIteratorsLv1 = 0;
+
+    void allocateNeighbourIterators(AtomNeighbourIterator ***);
+    void deallocateNeighbourIterators(AtomNeighbourIterator ***);
+    AtomNeighbourIterator &getAtomNeighbourLv1Iterator(const atom_reference_2d_t &);
 };
 
 } // namespace Simple2D
