@@ -20,6 +20,7 @@ typedef struct {
     double tStart;
     double tEnd;
     double tStep;
+    double temperature;
 } model_settigns_t;
 
 class Model : public CoreModel
@@ -29,7 +30,7 @@ public:
     Model(model_settigns_t, model_state_t, atom_value_t **);
     ~Model();
 
-    void init(double, double, double);
+    void init(double, double, double, double);
 
     bool isInitialized();
 

@@ -43,11 +43,12 @@ Model::~Model()
     core_2d_deallocate_field(mvpData, mvSettings.sizeX, mvSettings.sizeY);
 }
 
-void Model::init(double tStart, double tEnd, double tStep)
+void Model::init(double tStart, double tEnd, double tStep, double temperature)
 {
-    mvSettings.tStart   = tStart;
-    mvSettings.tEnd     = tEnd;
-    mvSettings.tStep    = tStep;
+    mvSettings.tStart       = tStart;
+    mvSettings.tEnd         = tEnd;
+    mvSettings.tStep        = tStep;
+    mvSettings.temperature  = temperature;
 
     mvState.tCurrent    = mvSettings.tStart;
 

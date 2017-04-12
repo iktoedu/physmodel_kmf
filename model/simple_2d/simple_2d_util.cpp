@@ -10,7 +10,7 @@ Simple2D::Model *simple_2d_init_new_model(position_value_t sizeX, position_value
         return (rand() % 2 == 1) ? .75 : .25;
     });
 
-    model->init(0, tEnd, tStep);
+    model->init(0, tEnd, tStep, 700);
 
     return model;
 }
