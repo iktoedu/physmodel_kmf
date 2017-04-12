@@ -83,4 +83,9 @@ void AtomGridIterator::reset()
     mvPositionY = 0;
 }
 
+bool AtomGridIterator::atEnd()
+{
+    return (mvPositionY >= mvSizeY);
+}
+
 } // namespace Simple2D
