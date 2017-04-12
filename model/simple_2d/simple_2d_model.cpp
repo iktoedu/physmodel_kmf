@@ -38,6 +38,7 @@ void Model::init(double tStart, double tEnd, double tStep)
 
     mvState.tCurrent    = mvSettings.tStart;
 
+    allocateShadowData();
     mvIsInitialized     = true;
 }
 
@@ -87,7 +88,7 @@ progress_unit_t Model::getCurrentStep()
 
 bool Model::isModellingEnded()
 {
-    return (mvState.tCurrent < mvSettings.tEnd);
+    return !(mvState.tCurrent < mvSettings.tEnd);
 }
 
 void Model::allocateData()
@@ -107,6 +108,7 @@ atom_value_t Model::atomDelta(atom_reference_2d_t atom)
 
     AtomNeighbourIterator it(atom, mvSettings.sizeX, mvSettings.sizeY);
     AtomNeighbourIterator end = AtomNeighbourIterator::endIterator(atom, mvSettings.sizeX, mvSettings.sizeY);
+
     for (; it != end; ++it) {
         sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * atomExchangeFrequency(atom, *it);
         sumGammaRight += CORE_2D_RESOLVE_ATOM_REFERENCE(*it) * atomExchangeFrequency(*it, atom);
