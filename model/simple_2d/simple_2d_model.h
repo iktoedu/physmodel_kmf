@@ -68,7 +68,7 @@ private:
 
     AtomNeighbourIterator ***mvpAtomNeighbourIteratorsLv1 = 0;
 
-    void allocateNeighbourIterators(AtomNeighbourIterator ***);
+    AtomNeighbourIterator ***allocateNeighbourIterators();
     void deallocateNeighbourIterators(AtomNeighbourIterator ***);
     AtomNeighbourIterator &getAtomNeighbourLv1Iterator(const atom_reference_2d_t &);
 };

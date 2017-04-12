@@ -24,7 +24,6 @@ Model::~Model()
 {
     if (mvpAtomNeighbourIteratorsLv1) {
         deallocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
-        delete [] mvpAtomNeighbourIteratorsLv1;
         mvpAtomNeighbourIteratorsLv1 = 0;
     }
 
@@ -142,8 +141,9 @@ AtomGridIterator &Model::getAtomGridIterator()
     return *mvpAtomGridIterator;
 }
 
-void Model::allocateNeighbourIterators(AtomNeighbourIterator ***p)
+AtomNeighbourIterator ***Model::allocateNeighbourIterators()
 {
+    AtomNeighbourIterator ***p = new AtomNeighbourIterator**[mvSettings.sizeY];
     for (position_value_t y = 0; y < mvSettings.sizeY; ++y) {
         p[y] = new AtomNeighbourIterator*[mvSettings.sizeX];
         for (position_value_t x = 0; x < mvSettings.sizeX; ++x) {
@@ -154,6 +154,8 @@ void Model::allocateNeighbourIterators(AtomNeighbourIterator ***p)
             p[y][x] = new AtomNeighbourIterator(ref, mvSettings.sizeX, mvSettings.sizeY);
         }
     }
+
+    return p;
 }
 
 void Model::deallocateNeighbourIterators(AtomNeighbourIterator ***p)
@@ -164,6 +166,7 @@ void Model::deallocateNeighbourIterators(AtomNeighbourIterator ***p)
         }
         delete [] p[y];
     }
+    delete [] p;
 }
 
 AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2d_t &atom)
@@ -171,8 +174,7 @@ AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2
     // TODO Check main pointer
 
     if (!mvpAtomNeighbourIteratorsLv1) {
-        mvpAtomNeighbourIteratorsLv1 = new AtomNeighbourIterator**[mvSettings.sizeY];
-        allocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
+        mvpAtomNeighbourIteratorsLv1 = allocateNeighbourIterators();
     }
 
     AtomNeighbourIterator *iterator = mvpAtomNeighbourIteratorsLv1[atom.y][atom.x];
