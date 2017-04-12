@@ -22,18 +22,21 @@ int main(int argc, char *argv[])
     const clock_t beginTime = clock();
     clock_t currentTime;
     double timeTotal, timeSpent;
+    progress_unit_t currentStep;
 
     while (!model->isModellingEnded()) {
         model->think();
 
         currentTime = clock();
+        currentStep = model->getCurrentStep();
 
-        timeTotal = float((currentTime - beginTime) / CLOCKS_PER_SEC) / model->getCurrentStep() * totalSteps;
+        timeTotal = float((currentTime - beginTime) / CLOCKS_PER_SEC) / currentStep * totalSteps;
         timeSpent = float((currentTime - beginTime) / CLOCKS_PER_SEC);
 
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" << setw(12) << timeTotal << setw(12) << timeSpent;
-
-//        cout << "\b\b\b\b\b\b\b\b\b\b\b\b" << setw(12) << model->getCurrentStep();
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+                << setw(12) << currentStep
+                << setw(12) << timeTotal
+                << setw(12) << timeSpent;
     }
 
     cout << endl;
