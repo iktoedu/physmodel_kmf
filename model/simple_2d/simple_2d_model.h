@@ -62,9 +62,9 @@ private:
     double mvTemporalNu0;
     double mvTemporalEs;
     double mvTemporalTheta;
-    double mvPhiAA;
-    double mvPhiAB;
-    double mvPhiBB;
+    double mvTemporalPhiAA;
+    double mvTemporalPhiAB;
+    double mvTemporalPhiBB;
 
     void allocateData();
     void allocateTemporalShadowData();

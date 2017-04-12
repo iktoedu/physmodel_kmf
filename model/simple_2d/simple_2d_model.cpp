@@ -160,9 +160,9 @@ void Model::initTemporalVariables()
     mvTemporalEs    = 0;
     mvTemporalTheta = mvSettings.temperature * (PHYSICS_CONSTANT_BOLTZMAN / PHYSICS_CONSTANT_EV);
 
-    mvPhiAA = -5e-20;
-    mvPhiAB = -2e-20;
-    mvPhiBB = -6e-20;
+    mvTemporalPhiAA = -5e-20;
+    mvTemporalPhiAB = -2e-20;
+    mvTemporalPhiBB = -6e-20;
 }
 
 void Model::cleanupTemporalVariables()
