@@ -54,15 +54,15 @@ private:
     model_state_t mvState;
 
     atom_value_t **mvpData = 0;
-    atom_value_t **mvpShadowData = 0;
 
-    atom_value_t **mvpDirectSumData = 0;
-    atom_value_t **mvpReverseSumData = 0;
+    atom_value_t **mvpTemporalData = 0;
+    atom_value_t **mvpTemporalDirectSumData = 0;
+    atom_value_t **mvpTemporalReverseSumData = 0;
 
     void allocateData();
-    void allocateShadowData();
-    void allocateDirectSumData();
-    void allocateReverseSumData();
+    void allocateTemporalShadowData();
+    void allocateTemporalDirectSumData();
+    void allocateTemporalReverseSumData();
 
     atom_value_t atomDelta(atom_reference_2d_t &);
     double atomExchangeFrequency(atom_reference_2d_t &, atom_reference_2d_t &);

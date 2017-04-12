@@ -16,7 +16,9 @@ Model::Model(position_value_t sizeX, position_value_t sizeY)
 Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data)
     : mvSettings(settings), mvState(state), mvpData(data)
 {
-    allocateShadowData();
+    allocateTemporalShadowData();
+    allocateTemporalDirectSumData();
+    allocateTemporalReverseSumData();
     mvIsInitialized = true;
 }
 
@@ -37,14 +39,14 @@ Model::~Model()
         mvpAtomGridIterator = 0;
     }
 
-    if (mvpReverseSumData) {
-        core_2d_deallocate_field(mvpReverseSumData, mvSettings.sizeX, mvSettings.sizeY);
+    if (mvpTemporalReverseSumData) {
+        core_2d_deallocate_field(mvpTemporalReverseSumData, mvSettings.sizeX, mvSettings.sizeY);
     }
-    if (mvpDirectSumData) {
-        core_2d_deallocate_field(mvpDirectSumData, mvSettings.sizeX, mvSettings.sizeY);
+    if (mvpTemporalDirectSumData) {
+        core_2d_deallocate_field(mvpTemporalDirectSumData, mvSettings.sizeX, mvSettings.sizeY);
     }
-    if (mvpShadowData) {
-        core_2d_deallocate_field(mvpShadowData, mvSettings.sizeX, mvSettings.sizeY);
+    if (mvpTemporalData) {
+        core_2d_deallocate_field(mvpTemporalData, mvSettings.sizeX, mvSettings.sizeY);
     }
     core_2d_deallocate_field(mvpData, mvSettings.sizeX, mvSettings.sizeY);
 }
@@ -58,7 +60,9 @@ void Model::init(double tStart, double tEnd, double tStep, double temperature)
 
     mvState.tCurrent    = mvSettings.tStart;
 
-    allocateShadowData();
+    allocateTemporalShadowData();
+    allocateTemporalDirectSumData();
+    allocateTemporalReverseSumData();
     mvIsInitialized     = true;
 }
 
@@ -71,17 +75,37 @@ void Model::think()
 {
     AtomGridIterator &it = getAtomGridIterator();
 
+    // Calculating sums of neighbour values
+    // They'll be used further
+    // This should improve the performance
     for (; !it.atEnd(); ++it) {
         atom_reference_2d_t atom = *it;
 
-        mvpShadowData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
+        mvpTemporalDirectSumData[atom.y][atom.x]    = 0;
+        mvpTemporalReverseSumData[atom.y][atom.x]   = 0;
+
+        AtomNeighbourIterator &itNeighbour = getAtomNeighbourLv1Iterator(atom);
+        for (; !itNeighbour.atEnd(); ++itNeighbour) {
+            mvpTemporalDirectSumData[atom.y][atom.x] += CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour);
+            mvpTemporalReverseSumData[atom.y][atom.x] += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour));
+        }
+    }
+
+    // Move to the start
+    it.reset();
+
+    // Calculate new state
+    for (; !it.atEnd(); ++it) {
+        atom_reference_2d_t atom = *it;
+
+        mvpTemporalData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
     }
 
     // Flush new state to buffer
     {
         atom_value_t **tmp = mvpData;
-        mvpData = mvpShadowData;
-        mvpShadowData = tmp;
+        mvpData = mvpTemporalData;
+        mvpTemporalData = tmp;
     }
 
     mvState.tCurrent += mvSettings.tStep;
@@ -122,19 +146,19 @@ void Model::allocateData()
     mvpData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
-void Model::allocateShadowData()
+void Model::allocateTemporalShadowData()
 {
-    mvpShadowData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+    mvpTemporalData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
-void Model::allocateDirectSumData()
+void Model::allocateTemporalDirectSumData()
 {
-    mvpDirectSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+    mvpTemporalDirectSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
-void Model::allocateReverseSumData()
+void Model::allocateTemporalReverseSumData()
 {
-    mvpReverseSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
+    mvpTemporalReverseSumData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
 atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
