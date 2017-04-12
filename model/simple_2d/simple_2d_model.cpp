@@ -2,8 +2,6 @@
 #include "core_2d/core_2d_util.h"
 
 #include <cmath>
-#include "simple_2d/simple_2d_atom_grid_iterator.h"
-#include "simple_2d/simple_2d_atom_neighbour_iterator.h"
 
 namespace Simple2D {
 
@@ -24,6 +22,16 @@ Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data
 
 Model::~Model()
 {
+    if (mvpAtomGridIterator) {
+        delete mvpAtomGridIterator;
+        mvpAtomGridIterator = 0;
+    }
+
+    if (mvpAtomGridEndIterator) {
+        delete mvpAtomGridEndIterator;
+        mvpAtomGridEndIterator = 0;
+    }
+
     if (mvpShadowData) {
         core_2d_deallocate_field(mvpShadowData, mvSettings.sizeX, mvSettings.sizeY);
     }
@@ -49,9 +57,8 @@ bool Model::isInitialized()
 
 void Model::think()
 {
-    static AtomGridIterator it(mvpData, mvSettings.sizeX, mvSettings.sizeY);
-    static AtomGridIterator end = AtomGridIterator::endIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
-    it.reset();
+    AtomGridIterator it = getAtomGridIterator();
+    AtomGridIterator end = getAtomGridEndIterator();
 
     for (; it != end; ++it) {
         atom_reference_2d_t atom = *it;
@@ -104,7 +111,6 @@ void Model::allocateShadowData()
 
 atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
 {
-    return 0;
     double sumGammaLeft     = 0;
     double sumGammaRight    = 0;
 
@@ -123,6 +129,25 @@ double Model::atomExchangeFrequency(atom_reference_2d_t &a, atom_reference_2d_t 
 {
     // TODO Implement Gamma
     return 0;
+}
+
+AtomGridIterator &Model::getAtomGridIterator()
+{
+    if (!mvpAtomGridIterator) {
+        mvpAtomGridIterator = new AtomGridIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    }
+    mvpAtomGridIterator->reset();
+
+    return *mvpAtomGridIterator;
+}
+
+AtomGridIterator &Model::getAtomGridEndIterator()
+{
+    if (!mvpAtomGridEndIterator) {
+        mvpAtomGridEndIterator = AtomGridIterator::endIteratorPointer(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    }
+
+    return *mvpAtomGridEndIterator;
 }
 
 } // namespace Simple2D

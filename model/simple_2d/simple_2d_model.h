@@ -4,6 +4,9 @@
 #include "core/core_types.h"
 #include "core/core_model.h"
 #include "core_2d/core_2d_atom_reference.h"
+#include "simple_2d/simple_2d_atom_grid_iterator.h"
+#include "simple_2d/simple_2d_atom_neighbour_iterator.h"
+
 
 namespace Simple2D {
 
@@ -57,6 +60,13 @@ private:
 
     atom_value_t atomDelta(atom_reference_2d_t &);
     double atomExchangeFrequency(atom_reference_2d_t &, atom_reference_2d_t &);
+
+    // Let's create atom grid iterator only once
+    // For other iterations - re-use existing
+    AtomGridIterator *mvpAtomGridIterator = 0;
+    AtomGridIterator *mvpAtomGridEndIterator = 0;
+    AtomGridIterator &getAtomGridIterator();
+    AtomGridIterator &getAtomGridEndIterator();
 };
 
 } // namespace Simple2D
