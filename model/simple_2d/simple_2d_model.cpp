@@ -52,7 +52,7 @@ bool Model::isInitialized()
 
 void Model::think()
 {
-    AtomGridIterator it = getAtomGridIterator();
+    AtomGridIterator &it = getAtomGridIterator();
 
     for (; !it.atEnd(); ++it) {
         atom_reference_2d_t atom = *it;
@@ -129,7 +129,9 @@ AtomGridIterator &Model::getAtomGridIterator()
     if (!mvpAtomGridIterator) {
         mvpAtomGridIterator = new AtomGridIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
     }
-//    mvpAtomGridIterator->reset();
+    else {
+        mvpAtomGridIterator->reset();
+    }
 
     return *mvpAtomGridIterator;
 }
