@@ -23,6 +23,8 @@ public:
 
     atom_reference_2d_t operator *();
 
+    void reset();
+
 private:
     atom_value_t **mvpField;
 

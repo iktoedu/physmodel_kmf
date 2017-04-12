@@ -49,8 +49,9 @@ bool Model::isInitialized()
 
 void Model::think()
 {
-    AtomGridIterator it(mvpData, mvSettings.sizeX, mvSettings.sizeY);
-    AtomGridIterator end = AtomGridIterator::endIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    static AtomGridIterator it(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    static AtomGridIterator end = AtomGridIterator::endIterator(mvpData, mvSettings.sizeX, mvSettings.sizeY);
+    it.reset();
 
     for (; it != end; ++it) {
         atom_reference_2d_t atom = *it;
@@ -101,8 +102,9 @@ void Model::allocateShadowData()
     mvpShadowData = core_2d_allocate_field(mvSettings.sizeX, mvSettings.sizeY);
 }
 
-atom_value_t Model::atomDelta(atom_reference_2d_t atom)
+atom_value_t Model::atomDelta(atom_reference_2d_t &atom)
 {
+    return 0;
     double sumGammaLeft     = 0;
     double sumGammaRight    = 0;
 
@@ -117,7 +119,7 @@ atom_value_t Model::atomDelta(atom_reference_2d_t atom)
     return (-CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaLeft + (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(atom)) * sumGammaRight;
 }
 
-double Model::atomExchangeFrequency(atom_reference_2d_t a, atom_reference_2d_t b)
+double Model::atomExchangeFrequency(atom_reference_2d_t &a, atom_reference_2d_t &b)
 {
     // TODO Implement Gamma
     return 0;

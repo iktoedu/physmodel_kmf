@@ -55,8 +55,8 @@ private:
     void allocateData();
     void allocateShadowData();
 
-    atom_value_t atomDelta(atom_reference_2d_t);
-    double atomExchangeFrequency(atom_reference_2d_t, atom_reference_2d_t);
+    atom_value_t atomDelta(atom_reference_2d_t &);
+    double atomExchangeFrequency(atom_reference_2d_t &, atom_reference_2d_t &);
 };
 
 } // namespace Simple2D

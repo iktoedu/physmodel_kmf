@@ -68,4 +68,10 @@ atom_reference_2d_t AtomGridIterator::operator *()
     return ref;
 }
 
+void AtomGridIterator::reset()
+{
+    mvPositionX = 0;
+    mvPositionY = 0;
+}
+
 } // namespace Simple2D
