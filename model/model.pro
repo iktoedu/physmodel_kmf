@@ -19,4 +19,5 @@ HEADERS += \
     simple_2d/simple_2d_atom_grid_iterator.h \
     core/core_model.h \
     simple_2d/simple_2d_model.h \
-    simple_2d/simple_2d_util.h
+    simple_2d/simple_2d_util.h \
+    basis/physics_constant.h

@@ -59,6 +59,13 @@ private:
     atom_value_t **mvpTemporalDirectSumData = 0;
     atom_value_t **mvpTemporalReverseSumData = 0;
 
+    double mvTemporalNu0;
+    double mvTemporalEs;
+    double mvTemporalTheta;
+    double mvPhiAA;
+    double mvPhiAB;
+    double mvPhiBB;
+
     void allocateData();
     void allocateTemporalShadowData();
     void allocateTemporalDirectSumData();

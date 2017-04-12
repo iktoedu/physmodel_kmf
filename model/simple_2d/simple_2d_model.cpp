@@ -1,5 +1,6 @@
 #include "simple_2d_model.h"
 #include "core_2d/core_2d_util.h"
+#include "basis/physics_constant.h"
 
 #include <cmath>
 
@@ -154,6 +155,14 @@ void Model::initTemporalVariables()
     allocateTemporalShadowData();
     allocateTemporalDirectSumData();
     allocateTemporalReverseSumData();
+
+    mvTemporalNu0   = 1.0e+13;
+    mvTemporalEs    = 0;
+    mvTemporalTheta = mvSettings.temperature * (PHYSICS_CONSTANT_BOLTZMAN / PHYSICS_CONSTANT_EV);
+
+    mvPhiAA = -5e-20;
+    mvPhiAB = -2e-20;
+    mvPhiBB = -6e-20;
 }
 
 void Model::cleanupTemporalVariables()
