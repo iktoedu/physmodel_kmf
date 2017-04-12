@@ -70,6 +70,13 @@ void Model::think()
         mvpShadowData[atom.y][atom.x] = CORE_2D_RESOLVE_ATOM_REFERENCE(atom) + atomDelta(atom) * mvSettings.tStep;
     }
 
+    // Flush new state to buffer
+    {
+        atom_value_t **tmp = mvpData;
+        mvpData = mvpShadowData;
+        mvpShadowData = tmp;
+    }
+
     mvState.tCurrent += mvSettings.tStep;
 }
 
