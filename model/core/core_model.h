@@ -12,6 +12,7 @@ public:
     virtual void think() = 0;
     virtual progress_unit_t getTotalSteps() = 0;
     virtual progress_unit_t getCurrentStep() = 0;
+    virtual float getProgressPercentage();
     virtual bool isModellingEnded() = 0;
 
     virtual atom_value_t getSystemSum();
