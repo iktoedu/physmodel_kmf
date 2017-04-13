@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <ctime>
 #include <cmath>
+#include <csignal>
 #include "core/core_model.h"
 #include "simple_2d/simple_2d_util.h"
 
@@ -11,8 +12,18 @@ using namespace std;
 #define SIZE_X   40
 #define SIZE_Y   40
 
+struct {
+    bool isSigIntHasBeenTriggered = false;
+} globalState;
+
+void handleSigInt(int signum)
+{
+    globalState.isSigIntHasBeenTriggered = true;
+}
+
 int main(int argc, char *argv[])
 {
+    signal(SIGINT, handleSigInt);
 
     CoreModel *model = simple_2d_init_new_model(SIZE_X, SIZE_Y, 10, 1.0e-10);
 
@@ -50,6 +61,11 @@ int main(int argc, char *argv[])
                 exit(1);
             }
             systemSumCheckCounter = 0;
+        }
+
+        if (globalState.isSigIntHasBeenTriggered) {
+            cout << endl << endl << "Caught SIGNINT" << endl;
+            break;
         }
     }
 
