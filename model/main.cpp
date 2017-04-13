@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
 
     CoreModel *model = simple_2d_init_new_model(SIZE_X, SIZE_Y, 10, 1.0e-10);
 
-    const progress_unit_t totalSteps = model->getTotalSteps();
+    model->describeInto(cout);
 
-    cout << "Steps count: " << totalSteps << endl;
+    const progress_unit_t totalSteps = model->getTotalSteps();
 
     const clock_t beginTime = clock();
     clock_t currentTime;
@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
         timeSpent = float((currentTime - beginTime) / CLOCKS_PER_SEC);
 
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-                << setw(12) << currentStep
-                << setw(12) << timeTotal
-                << setw(12) << timeSpent;
+             << setw(12) << currentStep
+             << setw(12) << timeTotal
+             << setw(12) << timeSpent;
         ++systemSumCheckCounter;
         if (systemSumCheckCounter == 100) {
             if (fabs(initialSystemSum - model->getSystemSum()) > 1e-1) {
