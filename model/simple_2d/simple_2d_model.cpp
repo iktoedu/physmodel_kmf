@@ -25,11 +25,6 @@ Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data
 
 Model::~Model()
 {
-    if (mvpAtomNeighbourIteratorsLv2) {
-        deallocateNeighbourIterators(mvpAtomNeighbourIteratorsLv2);
-        mvpAtomNeighbourIteratorsLv2 = 0;
-    }
-
     if (mvpAtomNeighbourIteratorsLv1) {
         deallocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
         mvpAtomNeighbourIteratorsLv1 = 0;
@@ -285,22 +280,6 @@ AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2
     }
 
     AtomNeighbourIterator *iterator = mvpAtomNeighbourIteratorsLv1[atom.y][atom.x];
-    iterator->reset();
-
-    return *iterator;
-}
-
-AtomNeighbourIterator &Model::getAtomNeighbourLv2Iterator(const atom_reference_2d_t &atom)
-{
-    if (atom.field != mvpData) {
-        throw std::logic_error("bad atom reference passed: wrong buffer address");
-    }
-
-    if (!mvpAtomNeighbourIteratorsLv2) {
-        mvpAtomNeighbourIteratorsLv2 = allocateNeighbourIterators();
-    }
-
-    AtomNeighbourIterator *iterator = mvpAtomNeighbourIteratorsLv2[atom.y][atom.x];
     iterator->reset();
 
     return *iterator;
