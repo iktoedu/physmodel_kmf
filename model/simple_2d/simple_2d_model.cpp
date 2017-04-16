@@ -25,9 +25,9 @@ Model::Model(model_settigns_t settings, model_state_t state, atom_value_t **data
 
 Model::~Model()
 {
-    if (mvpAtomNeighbourIteratorsLv1) {
-        deallocateNeighbourIterators(mvpAtomNeighbourIteratorsLv1);
-        mvpAtomNeighbourIteratorsLv1 = 0;
+    if (mvpAtomNeighbourIterators) {
+        deallocateNeighbourIterators(mvpAtomNeighbourIterators);
+        mvpAtomNeighbourIterators = 0;
     }
 
     if (mvpAtomGridIterator) {
@@ -86,7 +86,7 @@ void Model::preThink()
         mvpTemporalDirectSumData[atom.y][atom.x]    = 0;
         mvpTemporalReverseSumData[atom.y][atom.x]   = 0;
 
-        AtomNeighbourIterator &itNeighbour = getAtomNeighbourLv1Iterator(atom);
+        AtomNeighbourIterator &itNeighbour = getAtomNeighbourIterator(atom);
         for (; !itNeighbour.atEnd(); ++itNeighbour) {
             mvpTemporalDirectSumData[atom.y][atom.x] += CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour);
             mvpTemporalReverseSumData[atom.y][atom.x] += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*itNeighbour));
@@ -198,7 +198,7 @@ atom_value_t Model::getAtomDelta(atom_reference_2d_t &atom)
     double sumGammaLeft     = 0;
     double sumGammaRight    = 0;
 
-    AtomNeighbourIterator &it = getAtomNeighbourLv1Iterator(atom);
+    AtomNeighbourIterator &it = getAtomNeighbourIterator(atom);
 
     for (; !it.atEnd(); ++it) {
         sumGammaLeft += (1 - CORE_2D_RESOLVE_ATOM_REFERENCE(*it)) * getAtomExProb(atom, *it);
@@ -269,17 +269,17 @@ void Model::deallocateNeighbourIterators(AtomNeighbourIterator ***p)
     delete [] p;
 }
 
-AtomNeighbourIterator &Model::getAtomNeighbourLv1Iterator(const atom_reference_2d_t &atom)
+AtomNeighbourIterator &Model::getAtomNeighbourIterator(const atom_reference_2d_t &atom)
 {
     if (atom.field != mvpData) {
         throw std::logic_error("bad atom reference passed: wrong buffer address");
     }
 
-    if (!mvpAtomNeighbourIteratorsLv1) {
-        mvpAtomNeighbourIteratorsLv1 = allocateNeighbourIterators();
+    if (!mvpAtomNeighbourIterators) {
+        mvpAtomNeighbourIterators = allocateNeighbourIterators();
     }
 
-    AtomNeighbourIterator *iterator = mvpAtomNeighbourIteratorsLv1[atom.y][atom.x];
+    AtomNeighbourIterator *iterator = mvpAtomNeighbourIterators[atom.y][atom.x];
     iterator->reset();
 
     return *iterator;
