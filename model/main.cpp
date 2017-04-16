@@ -13,7 +13,8 @@ using namespace std;
 #define SIZE_Y   40
 
 struct {
-    bool isSigIntHasBeenTriggered = false;
+    bool isSigIntHasBeenTriggered   = false;
+    bool isSigUsr1HasBeenTriggered  = false;
 } globalState;
 
 void handleSigInt(int)
@@ -21,37 +22,47 @@ void handleSigInt(int)
     globalState.isSigIntHasBeenTriggered = true;
 }
 
+void handleSigUsr1(int)
+{
+    globalState.isSigUsr1HasBeenTriggered = true;
+}
+
 int main(int argc, char *argv[])
 {
     signal(SIGINT, handleSigInt);
+    signal(SIGUSR1, handleSigUsr1);
 
     CoreModel *model = simple_2d_init_new_model(SIZE_X, SIZE_Y, 10, 1.0e-10);
 
     model->describeInto(cout);
 
-    const progress_unit_t totalSteps = model->getTotalSteps();
+    const progress_unit_t totalSteps = model->getTotalSteps() - model->getCurrentStep();
+    progress_unit_t currentStep = 0;
 
     const clock_t beginTime = clock();
-    clock_t currentTime;
-    double timeTotal, timeSpent;
-    progress_unit_t currentStep;
+
 
     atom_value_t initialSystemSum = model->getSystemSum();
     uint8_t systemSumCheckCounter = 0;
 
     while (!model->isModellingEnded()) {
         model->think();
+        ++currentStep;
 
-        currentTime = clock();
-        currentStep = model->getCurrentStep();
+        if (globalState.isSigUsr1HasBeenTriggered) {
+            model->describeInto(cout);
 
-        timeTotal = float((currentTime - beginTime) / CLOCKS_PER_SEC) / currentStep * totalSteps;
-        timeSpent = float((currentTime - beginTime) / CLOCKS_PER_SEC);
+            clock_t currentTime = clock();
+            double timeTotal = float((currentTime - beginTime) / CLOCKS_PER_SEC) / currentStep * totalSteps;
+            double timeSpent = float((currentTime - beginTime) / CLOCKS_PER_SEC);
 
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-             << setw(12) << currentStep
-             << setw(12) << timeTotal
-             << setw(12) << timeSpent;
+            cout << setw(12) << timeTotal
+                 << setw(12) << timeSpent
+                 << endl;
+
+            globalState.isSigUsr1HasBeenTriggered = false;
+        }
+
         ++systemSumCheckCounter;
         if (systemSumCheckCounter == 100) {
             if (fabs(initialSystemSum - model->getSystemSum()) > 1e-1) {
