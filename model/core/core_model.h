@@ -14,14 +14,16 @@ public:
     virtual progress_unit_t getTotalSteps() = 0;
     virtual progress_unit_t getCurrentStep() = 0;
     virtual float getProgressPercentage();
-    virtual void describeInto(std::ostream &);
     virtual bool isModellingEnded() = 0;
 
     virtual atom_value_t getSystemSum();
 
+    void describeInto(std::ostream &);
+
 protected:
     virtual void preThink();
     virtual void postThink();
+    virtual void describeIntoImplementation(std::ostream &);
 };
 
 #endif // CORE_MODEL_H

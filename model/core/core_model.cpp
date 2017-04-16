@@ -27,6 +27,13 @@ void CoreModel::describeInto(std::ostream &output)
 {
     std::ios::fmtflags flags = output.flags();
 
+    describeIntoImplementation(output);
+
+    output.flags(flags);
+}
+
+void CoreModel::describeIntoImplementation(std::ostream &output)
+{
     output << "Abstract core model" << std::endl;
 
     output << "  " << std::setw(24) << std::left << "Total modelling steps:"
@@ -37,6 +44,4 @@ void CoreModel::describeInto(std::ostream &output)
            << std::setw(15) << std::right << std::fixed << std::dec << std::setprecision(2)
            << getProgressPercentage() << "%" << std::endl;
     output << std::resetiosflags;
-
-    output.flags(flags);
 }

@@ -16,7 +16,7 @@ struct {
     bool isSigIntHasBeenTriggered = false;
 } globalState;
 
-void handleSigInt(int signum)
+void handleSigInt(int)
 {
     globalState.isSigIntHasBeenTriggered = true;
 }
