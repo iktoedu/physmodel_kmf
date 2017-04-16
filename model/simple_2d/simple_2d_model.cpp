@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <exception>
+#include <iomanip>
 
 namespace Simple2D {
 
@@ -321,6 +322,35 @@ atom_value_t Model::getGridDataSum()
 atom_value_t Model::getSystemSum()
 {
     return getGridDataSum();
+}
+
+void Model::describeIntoImplementation(std::ostream &output)
+{
+    output << "Simple 2D model" << std::endl;
+
+    output << "  " << std::setw(24) << std::left << "Grid X-size:"
+           << std::setw(16) << std::right << std::fixed << std::dec << (int) mvSettings.sizeX << std::endl;
+    output << "  " << std::setw(24) << std::left << "Grid Y-size:"
+           << std::setw(16) << std::right << std::fixed << std::dec << (int) mvSettings.sizeY << std::endl;
+
+    output << "  " << std::setw(24) << std::left << "Temperature:"
+           << std::setw(16) << std::right << std::fixed << std::dec << mvSettings.temperature << std::endl;
+    output << "  " << std::setw(24) << std::left << "Start time:"
+           << std::setw(16) << std::right << std::fixed << std::dec << mvSettings.tStart << std::endl;
+    output << "  " << std::setw(24) << std::left << "End time:"
+           << std::setw(16) << std::right << std::fixed << std::dec << mvSettings.tEnd << std::endl;
+    output << "  " << std::setw(24) << std::left << "Time step:"
+           << std::setw(16) << std::right << std::fixed << std::dec << mvSettings.tStep << std::endl;
+    output << "  " << std::setw(24) << std::left << "Time current:"
+           << std::setw(16) << std::right << std::fixed << std::dec << mvState.tCurrent << std::endl;
+
+    output << "  " << std::setw(24) << std::left << "Total modelling steps:"
+           << std::setw(16) << std::right << std::fixed << std::dec << getTotalSteps() << std::endl;
+    output << "  " << std::setw(24) << std::left << "Current modelling step:"
+           << std::setw(16) << std::right << std::fixed << std::dec << getCurrentStep() << std::endl;
+    output << "  " << std::setw(24) << std::left << "Current percentage:"
+           << std::setw(15) << std::right << std::fixed << std::dec << std::setprecision(2)
+           << getProgressPercentage() << "%" << std::endl;
 }
 
 } // namespace Simple2D

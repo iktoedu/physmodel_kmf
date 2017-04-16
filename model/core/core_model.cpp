@@ -43,5 +43,4 @@ void CoreModel::describeIntoImplementation(std::ostream &output)
     output << "  " << std::setw(24) << std::left << "Current percentage:"
            << std::setw(15) << std::right << std::fixed << std::dec << std::setprecision(2)
            << getProgressPercentage() << "%" << std::endl;
-    output << std::resetiosflags;
 }

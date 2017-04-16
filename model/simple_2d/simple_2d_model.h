@@ -52,6 +52,7 @@ public:
 protected:
     void preThink();
     void postThink();
+    void describeIntoImplementation(std::ostream &);
 
 private:
 
